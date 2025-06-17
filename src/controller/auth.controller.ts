@@ -3,6 +3,7 @@ import User from "../models/user.model";
 
 export const register = (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log(req.body);
     const { email, full_name, password, phone } = req.body;
 
     const user = User.create({ email, full_name, password, phone });
