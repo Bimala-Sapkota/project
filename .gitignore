@@ -1,10 +1,10 @@
 # ==========================
 # Node.js and TypeScript
 # ==========================
-node_modules/
+/node_modules
 
 dist/
-build/
+/build
 *.tsbuildinfo
 
 # Logs
