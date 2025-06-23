@@ -1,8 +1,9 @@
+import { generateJwtToken } from "./../utils/jwt.utils";
 import { hash, compare } from "../utils/bcrypt"; //  both hash and compare are imported
 import { Request, Response, NextFunction } from "express";
 import User from "../models/user.model";
-//import { generateToken } from "../utils/token"; //  generateToken is imported
-
+import { asyncHandler } from "../utils/async-handler.utils";
+import { CustomError } from "../middleware/error-handler.middleware";
 export const register = async (
   req: Request,
   res: Response,
@@ -15,7 +16,7 @@ export const register = async (
     const { email, full_name, password, phone } = req.body;
 
     if (!password) {
-      throw new Error("Password is required");
+      throw new CustomError("Password is required", 400);
     }
 
     const hashedPassword = await hash(password);
@@ -32,7 +33,7 @@ export const register = async (
     });
 
     if (!user) {
-      throw new Error("Register failed. Try again.");
+      throw new CustomError("Register failed. Try again.", 400);
     }
 
     res.status(201).json({
@@ -58,21 +59,29 @@ export const login = async (req: Request, res: Response) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      throw new Error("User  not found");
+      throw new CustomError("User  not found", 400);
     }
 
     const isValidPassword = await compare(password, user.password);
     if (!isValidPassword) {
-      throw new Error("Invalid password");
+      throw new CustomError("Invalid password", 400);
     }
 
-    // const token = await generateToken(user);
+    const payload = {
+      id: user._id,
+      email: user.email,
+      full_name: user.full_name,
+      role: user.role,
+    };
+    const token = await generateJwtToken(user);
     res.status(200).json({
       message: "Login success",
       success: true,
       status: "success",
-      data: user,
-      ///data: token,
+      data: {
+        user,
+        access_: token,
+      },
     });
   } catch (error: any) {
     res.status(500).json({
