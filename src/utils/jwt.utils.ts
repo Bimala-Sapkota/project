@@ -9,7 +9,9 @@ export const generateJwtToken = (payload: JWTPayload): string => {
   if (typeof payload !== "object" || payload === null) {
     throw new Error("Payload must be a non-null object");
   }
-  return jwt.sign(payload as object, JWT_SECRET, { expiresIn: JWT_EXPIRED_IN });
+  return jwt.sign(payload as object, JWT_SECRET, {
+    expiresIn: JWT_EXPIRED_IN as any,
+  });
 };
 
 export const decodeJWTToken = (token: string): JWTPayload | null => {

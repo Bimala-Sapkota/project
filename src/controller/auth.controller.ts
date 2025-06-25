@@ -19,76 +19,106 @@ export const register = async (
       throw new CustomError("Password is required", 400);
     }
 
+    //hashing User Password
     const hashedPassword = await hash(password);
-    console.log(
-      "~ auth.controller.ts:24 ~register ~hashedPassword",
-      hashedPassword
-    );
-
+    //creating user
     const user = await User.create({
       email,
       full_name,
       password: hashedPassword,
       phone,
     });
-
+    //throw error
     if (!user) {
-      throw new CustomError("Register failed. Try again.", 400);
+      throw new CustomError("Registration Failed. Try Again later.", 500);
     }
 
+    //success response
     res.status(201).json({
-      message: "Register success",
+      //in create 201 status
+      message: "User Registered",
       success: true,
       status: "success",
       data: user,
     });
   } catch (error: any) {
-    res.status(500).json({
-      message: "Internal Server Error",
-      error: error.message,
-      success: false,
-      status: "fail",
-    });
+    // res.status(500).json({
+    //   message: error?.message ?? "internet Server Error",
+    //   success: false,
+    //   status: "fail",
+    // });
+    next(error);
   }
 };
 
-export const login = async (req: Request, res: Response) => {
-  try {
-    console.log("login");
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+//login Success=====
+export const login = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // body (email,password)
+      const { email, password } = req.body;
 
-    if (!user) {
-      throw new CustomError("User  not found", 400);
+      if (!email) {
+        throw new CustomError("Email is Required", 400);
+      }
+
+      if (!password) {
+        throw new CustomError("Password is Required", 400);
+      }
+
+      // find user by email
+      const user = await User.findOne({ email });
+
+      // if !user => error
+      if (!user) {
+        throw new CustomError("Email or password does not match", 404);
+      }
+
+      // compare password
+      const isPasswordMatched = await compare(password, user.password);
+
+      // !match -> error
+      if (!isPasswordMatched) {
+        throw new CustomError("Email or password does not match", 400);
+      }
+
+      const payload = {
+        id: user._id,
+        email: user.email,
+        full_name: user.full_name,
+        role: user.role,
+      };
+      const token = generateJwtToken(user);
+
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+          maxAge:
+            parseInt(process.env.COOKIE_EXPIRES_IN ?? "1") *
+            24 *
+            60 *
+            60 *
+            1000,
+          secure: false, //true in case of going on products
+        })
+        .json({
+          message: "Login success",
+          success: true,
+          status: "success",
+          data: {
+            user,
+            access_token: token,
+          },
+        });
+    } catch (error: any) {
+      // res.status(500).json({
+      //   message: "Internal Server Error",
+      //   error: error.message,
+      //   success: false,
+      //   status: "fail",
+
+      next(error);
     }
-
-    const isValidPassword = await compare(password, user.password);
-    if (!isValidPassword) {
-      throw new CustomError("Invalid password", 400);
-    }
-
-    const payload = {
-      id: user._id,
-      email: user.email,
-      full_name: user.full_name,
-      role: user.role,
-    };
-    const token = await generateJwtToken(user);
-    res.status(200).json({
-      message: "Login success",
-      success: true,
-      status: "success",
-      data: {
-        user,
-        access_: token,
-      },
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      message: "Internal Server Error",
-      error: error.message,
-      success: false,
-      status: "fail",
-    });
   }
-};
+);

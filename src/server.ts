@@ -35,14 +35,13 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/products", productRoutes);
 
 // Corrected wildcard route handling
-app.all("*", (req: Request, res: Response, next: NextFunction) => {
+app.all("/{*splat}", (req: Request, res: Response, next: NextFunction) => {
   const message = `Cannot ${req.method} on ${req.url}`;
   const error = new CustomError(message, 404);
   return next(error);
 });
 
-app.use(errorHandler);
-
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
+app.use(errorHandler);
