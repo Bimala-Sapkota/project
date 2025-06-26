@@ -18,15 +18,15 @@ const app = express();
 
 connectDB(DB_URI);
 
-app.use(cookieParser());
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   console.log("object");
   res.status(200).json({
-    message: "Hello, World!",
+    message: "server is up & running!",
   });
 });
 

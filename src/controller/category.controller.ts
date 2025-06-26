@@ -1,21 +1,31 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../utils/async-handler.utils";
 import Category from "../models/category.model";
 import { CustomError } from "../middleware/error-handler.middleware";
-export const create = asyncHandler(async (req: Request, res: Response) => {
-  const { name, description } = req.body;
-  const category = await Category.create({ name, description });
-  if (!category) {
-    throw new CustomError("something went wrong", 500);
-  }
 
-  res.status(201).json({
-    message: "Category Created",
-    success: true,
-    status: "success",
-    data: category,
-  });
-});
+export const create = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { name, description } = req.body;
+    console.log(req.body);
+    const category = await Category.create({ name, description });
+    if (!category) {
+      throw new CustomError("something went wrong", 500);
+    }
+
+    res.status(201).json({
+      message: "Category Created",
+      success: true,
+      status: "success",
+      data: category,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // get all category
 
