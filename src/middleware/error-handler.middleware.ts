@@ -1,4 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
+
+// custom error class
 
 export class CustomError extends Error {
   statusCode: number;
@@ -15,6 +17,7 @@ export class CustomError extends Error {
   }
 }
 
+// error handler middleware
 export const errorHandler = (
   err: any,
   req: Request,
@@ -27,8 +30,8 @@ export const errorHandler = (
   const success = err.success || false;
 
   res.status(statusCode).json({
-    success,
     message,
+    success,
     status,
   });
 };

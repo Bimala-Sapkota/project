@@ -1,33 +1,36 @@
-import { uploader } from "./../middleware/file_uploder.middelware";
 import express from "express";
 import {
   create,
-  getAllProducts,
-  getProductById,
-  updateProduct,
-  deleteProduct,
+  getAll,
+  getById,
+  remove,
+  update,
 } from "../controller/product.controller";
 import { authenticate } from "../middleware/authenticate.middleware";
-import { onlyAdmin, onlyUser } from "../types/global.types";
+import { onlyAdmin } from "../types/global.types";
 
-const router = express.Router();
+import { uploader } from "../middleware/file_uploder.middelware";
+
 const upload = uploader();
 
-router.get("/", getAllProducts);
+const router = express.Router();
 
-//POST route for creating a product with file uploads
+router.get("/", getAll);
+
+router.get("/:id", getById);
+
 router.post(
   "/",
-  authenticate(onlyAdmin), // Ensure only admin can create products
+  authenticate(onlyAdmin),
   upload.fields([
-    { name: "coverImage", maxCount: 1 }, // Use 'maxCount' (lowercase)
-    { name: "image", maxCount: 5 },
+    { name: "coverImage", maxCount: 1 },
+    { name: "images", maxCount: 5 },
   ]),
-  create // Call the createProduct controller after file upload
+  create
 );
 
-router.get("/:id", getProductById);
-router.put("/:id", authenticate(onlyAdmin), updateProduct);
-router.delete("/:id", authenticate(onlyAdmin), deleteProduct);
+router.put("/:id", authenticate(onlyAdmin), update);
+
+router.delete("/:id", authenticate(onlyAdmin), remove);
 
 export default router;

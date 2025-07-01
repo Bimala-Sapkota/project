@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import { asyncHandler } from "../utils/async-handler.utils";
 import Product from "../models/product.model";
-import { CustomError } from "../middleware/error-handler.middleware";
+import CustomError, {
+  errorHandler,
+} from "../middleware/error-handler.middleware";
+import path from "path";
 
 export const create = asyncHandler(async (req: Request, res: Response) => {
   const data = req.body;
@@ -12,7 +15,7 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
 
   console.log(coverImage);
 
-  if (!coverImage || coverImage.length > 0) {
+  if (!coverImage || coverImage.length === 0) {
     throw new CustomError("coverImage is required", 404);
   }
 
@@ -20,8 +23,19 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
 
   product.coverImage = {
     path: coverImage[0].path,
-    public_id: coverImage[0].fieldname,
+    public_id: path.basename(coverImage[0].path),
   };
+
+  if (images && images.length > 0) {
+    const imagePath: { path: string; public_id: string }[] = images.map(
+      (image) => ({
+        path: image.path,
+        public_id: path.basename(image.path),
+      })
+    );
+
+    product.images = imagePath as any;
+  }
 
   await product.save();
 
@@ -33,69 +47,66 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-// Get all products
-export const getAllProducts = asyncHandler(
-  async (req: Request, res: Response) => {
-    const products = await Product.find();
-    res.status(200).json({
-      status: "success",
-      message: "All products retrieved",
-      success: true,
-      data: products,
-    });
+export const getAll = asyncHandler(async (req: Request, res: Response) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    status: "success",
+    success: true,
+    message: "Products fetched successfully",
+    data: products,
+  });
+});
+
+export const getById = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+  if (!product) {
+    throw new CustomError("Product not found", 404);
   }
-);
 
-// Get product by ID
-export const getProductById = asyncHandler(
-  async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const product = await Product.findById(id);
-    if (!product) throw new CustomError("Product not found", 404);
+  res.status(200).json({
+    status: "success",
+    success: true,
+    message: "Product fetched successfully",
+    data: product,
+  });
+});
 
-    res.status(200).json({
-      status: "success",
-      message: "Product retrieved",
-      success: true,
-      data: product,
-    });
+export const update = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const data = req.body;
+
+  const product = await Product.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!product) {
+    throw new CustomError("Product not found", 404);
   }
-);
 
-// Update product
-export const updateProduct = asyncHandler(
-  async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const updates = req.body;
+  res.status(200).json({
+    status: "success",
+    success: true,
+    message: "Product updated successfully",
+    data: product,
+  });
+});
 
-    const updated = await Product.findByIdAndUpdate(id, updates, {
-      new: true,
-      runValidation: true,
-    });
-    if (!updated) throw new CustomError("Product not found for update", 404);
+export const remove = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
 
-    res.status(200).json({
-      status: "success",
-      message: "Product updated",
-      success: true,
-      data: updated,
-    });
+  const product = await Product.findByIdAndDelete(id);
+
+  if (!product) {
+    throw new CustomError("Product not found", 404);
   }
-);
 
-// Delete product
-export const deleteProduct = asyncHandler(
-  async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    const product = await Product.findByIdAndDelete(id);
-    if (!product) throw new CustomError("Product not found for update", 404);
-
-    res.status(200).json({
-      message: "Product deleted",
-      status: "success",
-      success: true,
-      data: null,
-    });
-  }
-);
+  res.status(200).json({
+    status: "success",
+    success: true,
+    message: "Product deleted successfully",
+    data: null,
+  });
+});

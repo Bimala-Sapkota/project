@@ -1,47 +1,58 @@
 import "dotenv/config";
-import helmet from "helmet";
 import express, { NextFunction, Request, Response } from "express";
-import { connectDB } from "./config/db-connect";
-
-import CustomError from "./middleware/error-handler.middleware";
+import CustomError, {
+  errorHandler,
+} from "./middleware/error-handler.middleware";
+import { connectDb } from "./config/db-connect";
+import helmet from "helmet";
 import cookieParser from "cookie-parser";
-import { errorHandler } from "./middleware/error-handler.middleware";
 
+// importing routes
+import authRoutes from "./routers/auth.routes";
 import categoryRoutes from "./routers/category.routes";
 import productRoutes from "./routers/product.routes";
-import authRoutes from "./routers/auth.routes";
 
-const PORT = process.env.PORT || 8000;
-const DB_URI = process.env.DB_URI ?? "";
-console.log(PORT);
 const app = express();
+const PORT = process.env.PORT || 8080;
+const DB_URI = process.env.DB_URI ?? "";
 
-connectDB(DB_URI);
+//
 
+// connecting database
+connectDb(DB_URI);
+
+// using middlewares
+// to set security headers / removes insecure headers
 app.use(helmet());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// parse req cookie
 app.use(cookieParser());
+// parse url-encoded data
+app.use(express.urlencoded({ extended: true }));
+
+// parse json data
+app.use(express.json());
 
 app.get("/", (req, res) => {
-  console.log("object");
   res.status(200).json({
-    message: "server is up & running!",
+    message: "Server is up & running",
   });
 });
 
+// using routes
 app.use("/api/auth", authRoutes);
 app.use("/api/category", categoryRoutes);
-app.use("/api/products", productRoutes);
+app.use("/api/product", productRoutes);
 
-// Corrected wildcard route handling
-app.all("/{*splat}", (req: Request, res: Response, next: NextFunction) => {
-  const message = `Cannot ${req.method} on ${req.url}`;
+app.all("/{*spalt}", (req: Request, res: Response, next: NextFunction) => {
+  const message = `Can not ${req.method} on ${req.url}`;
+
   const error = new CustomError(message, 404);
-  return next(error);
+
+  next(error);
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
+
 app.use(errorHandler);

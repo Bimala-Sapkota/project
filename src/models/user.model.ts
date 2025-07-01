@@ -9,21 +9,17 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
     email: {
-      type: String,
       required: [true, "email is required"],
-      trim: true,
-      unique: [true, " user already exist with provided email"],
+      type: String,
+      unique: [true, "user already exists with provided email"],
     },
     password: {
-      type: String,
       required: [true, "password is required"],
-      min: [6, "password must be  at least 6 char . long"],
-      trim: true,
-    },
-    phone: {
+      min: [6, "password must be at least 6 char. long"],
       type: String,
-
-      trim: true,
+    },
+    phone_number: {
+      type: String,
     },
     role: {
       type: String,
@@ -31,9 +27,9 @@ const userSchema = new mongoose.Schema(
       default: Role.USER,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-export default mongoose.model("User", userSchema);
+const User = mongoose.model("user", userSchema);
+
+export default User;
