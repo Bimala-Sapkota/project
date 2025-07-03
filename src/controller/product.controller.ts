@@ -5,6 +5,9 @@ import CustomError, {
   errorHandler,
 } from "../middleware/error-handler.middleware";
 import path from "path";
+import Category from "../models/category.model";
+import { removeImages } from "../config/cloudinary.conflict.";
+import { IImages } from "../types/global.types";
 
 export const create = asyncHandler(async (req: Request, res: Response) => {
   const data = req.body;

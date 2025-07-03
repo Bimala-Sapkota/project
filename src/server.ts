@@ -11,6 +11,8 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routers/auth.routes";
 import categoryRoutes from "./routers/category.routes";
 import productRoutes from "./routers/product.routes";
+import cartRoutes from "./routers/cart.routes";
+import wishlistRouter from "./routers/wishlist.routes";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -42,6 +44,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", productRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/wishlist", wishlistRouter);
 
 app.all("/{*spalt}", (req: Request, res: Response, next: NextFunction) => {
   const message = `Can not ${req.method} on ${req.url}`;
