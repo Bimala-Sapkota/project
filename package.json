@@ -1,7 +1,6 @@
 {
   "name": "project",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
@@ -23,7 +22,8 @@
     "mongoose": "^8.15.2",
     "multer": "^2.0.1",
     "multer-storage-cloudinary": "^4.0.0",
-    "save-dev": "^0.0.1-security"
+    "save-dev": "^0.0.1-security",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.9",
@@ -32,5 +32,14 @@
     "@types/jsonwebtoken": "^9.0.10",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bimala-Sapkota/project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Bimala-Sapkota/project/issues"
+  },
+  "homepage": "https://github.com/Bimala-Sapkota/project#readme",
+  "description": ""
 }
