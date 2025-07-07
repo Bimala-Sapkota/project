@@ -5,6 +5,15 @@ export enum Role {
   USER = "USER",
 }
 
+export enum OrderStatus {
+  PENDING = "Pending",
+  PROCESSING = "Processing",
+  SHIPPING = "Shipping",
+  CANCELED = "Canceled",
+  COMPLETED = "Completed",
+  DELIVERED = "Delivered",
+}
+
 export const onlyAdmin = [Role.ADMIN];
 export const onlyUser = [Role.USER];
 export const onlyAdminAndUser = [Role.ADMIN, Role.USER];

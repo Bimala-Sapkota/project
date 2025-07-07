@@ -1,5 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
+import { OrderStatus } from "../types/global.types";
 
 const orderSchema = new mongoose.Schema(
   {
@@ -26,12 +27,13 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
+
     status: {
       type: String,
-      //required: [true, "status is required"],
-      enum: ["Pending", "Processing", "Shipping", "Canceled", "completed"],
-      default: "Pending",
+      enum: Object.values(OrderStatus),
+      default: OrderStatus,
     },
+
     totalAmount: {
       type: Number,
       required: [true, "total amount is required"],
