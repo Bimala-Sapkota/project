@@ -6,7 +6,7 @@ import {
   updateBrand,
   deleteBrand,
 } from "../controller/brand.controller";
-import { authenticate } from "../middleware/authenticate.middleware";
+//import { authenticate } from "../middleware/authenticate.middleware";
 import { authorize } from "../middleware/authorize.middleware";
 import { onlyAdmin } from "../types/global.types";
 
