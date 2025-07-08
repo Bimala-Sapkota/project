@@ -2,4 +2,4 @@
 # Node.js and TypeScript
 # ==========================
 node_modules/
-env/
+.env
