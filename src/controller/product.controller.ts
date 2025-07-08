@@ -51,7 +51,19 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getAll = asyncHandler(async (req: Request, res: Response) => {
-  const products = await Product.find();
+  const { query } = req.query;
+  const filter: Record<string, any> = {};
+
+  console.log(query);
+
+  if (query) {
+    filter.name = {
+      $regex: query, // regex is used for patron match
+      $options: "i", // hami le patako product ko auta matra word correct vayo vane vslu dekaune
+    };
+  }
+
+  const products = await Product.find({}).populate("category");
 
   res.status(200).json({
     status: "success",
