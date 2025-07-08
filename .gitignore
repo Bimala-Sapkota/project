@@ -1,6 +1,5 @@
 # ==========================
 # Node.js and TypeScript
 # ==========================
-/node_modules
-.env
-/built
+node_modules/
+env/
