@@ -22,8 +22,25 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-// get all categories
+// get all categories with optional filtering
 export const getAll = asyncHandler(async (req: Request, res: Response) => {
+  const { name, description } = req.query;
+  // Create a filter object
+  const filter: Record<string, any> = {};
+
+  if (name) {
+    filter.name = {
+      $regex: name, // Use regex for partial matching
+      $options: "i", // Case insensitive
+    };
+  }
+  if (description) {
+    filter.description = {
+      $regex: description, // Use regex for partial matching
+      $options: "i", // Case insensitive
+    };
+  }
+
   const categories = await Category.find();
 
   res.status(200).json({

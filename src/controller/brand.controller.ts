@@ -24,7 +24,35 @@ export const createBrand = asyncHandler(async (req: Request, res: Response) => {
 // get all brands(get)
 export const getAllBrands = asyncHandler(
   async (req: Request, res: Response) => {
-    const brands = await Brand.find().sort({ createdAt: -1 });
+    const { name, description, query } = req.query;
+
+    // Create filter object with $or and $and conditions
+    const filter: any = {};
+
+    if (query) {
+      // General search that looks in both name and description
+      filter.$or = [
+        { name: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+      ];
+    } else {
+      // Specific field filters if no general query is present
+      if (name) {
+        filter.name = { $regex: name, $options: "i" };
+      }
+      if (description) {
+        filter.description = { $regex: description, $options: "i" };
+      }
+    }
+
+    // Add additional filters here if needed (like status, etc.)
+    // if (status) {
+    //   filter.status = status;
+    // }
+
+    // Fetch brands based on the filter
+    const brands = await Brand.find(filter).sort({ createdAt: -1 });
+
     res.status(200).json({
       message: "Brands fetched successfully",
       success: true,
