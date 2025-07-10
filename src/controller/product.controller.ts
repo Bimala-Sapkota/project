@@ -8,6 +8,7 @@ import path from "path";
 import Category from "../models/category.model";
 import { removeImages } from "../config/cloudinary.conflict.";
 import { IImages } from "../types/global.types";
+import { getPagination } from "../utils/pagination.utils";
 
 export const create = asyncHandler(async (req: Request, res: Response) => {
   const data = req.body;
@@ -51,10 +52,17 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getAll = asyncHandler(async (req: Request, res: Response) => {
-  const { query, minPrice, maxPrice } = req.query;
+  const { query, minPrice, maxPrice, limit, page } = req.query;
   const filter: Record<string, any> = {};
 
   console.log(query);
+
+  //pagination
+  const perPage = parseInt(limit as string) ?? 10;
+  const currentPage = parseInt(page as string) ?? 1;
+
+  //calculate skip
+  const skip = (currentPage - 1) * perPage;
 
   if (query) {
     filter.$or = [
@@ -93,13 +101,24 @@ export const getAll = asyncHandler(async (req: Request, res: Response) => {
     }
   }
 
-  const products = await Product.find({}).populate("category");
+  const products = await Product.find(filter)
+    .limit(perPage)
+    .skip(skip)
+    .sort({ createdAt: -1 })
+    .populate("category");
+
+  const totalData = await Product.countDocuments(filter);
+
+  const pagination = getPagination(totalData, perPage, currentPage);
 
   res.status(200).json({
     status: "success",
     success: true,
     message: "Products fetched successfully",
-    data: products,
+    data: {
+      data: products,
+      pagination,
+    },
   });
 });
 
