@@ -3,9 +3,6 @@ import { login, register } from "../controller/auth.controller";
 
 const router = express.Router();
 
-// product
-// crud
-
 // register user
 router.post("/register", register);
 router.post("/login", login);
