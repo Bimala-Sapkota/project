@@ -6,6 +6,8 @@ import CustomError, {
 } from "../middleware/error-handler.middleware";
 import { asyncHandler } from "../utils/async-handler.utils";
 import { generateJWTToken } from "../utils/jwt.utils";
+import { sendMail } from "../utils/nodemailer.utils";
+import { account_registration_confirmation_html } from "../utils/html.utils";
 
 // register
 export const register = asyncHandler(
@@ -32,6 +34,17 @@ export const register = asyncHandler(
     if (!user) {
       throw new CustomError("Registration failed.Try again later.", 500);
     }
+
+    // throw error
+    if (!user) {
+      throw new CustomError("Registration failed.Try again later.", 500);
+    }
+
+    await sendMail({
+      to: user.email,
+      subject: "Account Registered Successfully",
+      html: account_registration_confirmation_html(req, user),
+    });
 
     // success response
     res.status(201).json({

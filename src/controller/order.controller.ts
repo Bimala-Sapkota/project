@@ -4,10 +4,12 @@ import Product from "../models/product.model";
 import { OrderStatus } from "../types/global.types";
 import { asyncHandler } from "../utils/async-handler.utils";
 import { Request, Response } from "express";
+import { sendMail } from "../utils/nodemailer.utils";
+import { order_confirmation_html } from "../utils/html.utils";
 //import { StatusCodes } from "http-status-codes";
 
 export const create = asyncHandler(async (req: Request, res: Response) => {
-  const user = req.user._id;
+  const { _id: user, email } = req.user;
   const { items } = req.body;
 
   const orderItems: { product: string; quantity: number }[] = JSON.parse(items);
@@ -40,8 +42,14 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
 
   const newOrder = await (await order.save()).populate("items.product");
 
+  await sendMail({
+    to: email,
+    subject: "Order Placed Successfully",
+    html: order_confirmation_html(newOrder.items, Number(totalAmount)),
+  });
+
   res.status(201).json({
-    message: "Order created successfully",
+    message: "Order placed successfully",
     success: true,
     status: "success",
     data: newOrder,

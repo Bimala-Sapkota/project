@@ -35,3 +35,9 @@ export interface JWTPayloadDecoded extends JWTPayload {
   iat: number;
   exp: number;
 }
+
+export interface EmailOptions {
+  to: string;
+  subject: string;
+  html: string;
+}

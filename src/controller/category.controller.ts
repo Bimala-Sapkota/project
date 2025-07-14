@@ -41,8 +41,9 @@ export const getAll = asyncHandler(async (req: Request, res: Response) => {
     };
   }
 
-  const categories = await Category.find();
+  const categories = await Category.find(filter);
 
+  //await sendEmail();
   res.status(200).json({
     message: "All category fetched",
     success: true,
