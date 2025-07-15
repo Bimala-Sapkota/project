@@ -47,7 +47,8 @@ exports.getAll = (0, async_handler_utils_1.asyncHandler)((req, res) => __awaiter
             $options: "i", // Case insensitive
         };
     }
-    const categories = yield category_model_1.default.find();
+    const categories = yield category_model_1.default.find(filter);
+    //await sendEmail();
     res.status(200).json({
         message: "All category fetched",
         success: true,

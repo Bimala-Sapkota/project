@@ -18,9 +18,11 @@ const order_model_1 = __importDefault(require("../models/order.model"));
 const product_model_1 = __importDefault(require("../models/product.model"));
 const global_types_1 = require("../types/global.types");
 const async_handler_utils_1 = require("../utils/async-handler.utils");
+const nodemailer_utils_1 = require("../utils/nodemailer.utils");
+const html_utils_1 = require("../utils/html.utils");
 //import { StatusCodes } from "http-status-codes";
 exports.create = (0, async_handler_utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = req.user._id;
+    const { _id: user, email } = req.user;
     const { items } = req.body;
     const orderItems = JSON.parse(items);
     const orderProducts = orderItems.map((item) => __awaiter(void 0, void 0, void 0, function* () {
@@ -43,8 +45,13 @@ exports.create = (0, async_handler_utils_1.asyncHandler)((req, res) => __awaiter
         .toFixed(2);
     const order = new order_model_1.default({ user, items: filteredItems, totalAmount });
     const newOrder = yield (yield order.save()).populate("items.product");
+    yield (0, nodemailer_utils_1.sendMail)({
+        to: email,
+        subject: "Order Placed Successfully",
+        html: (0, html_utils_1.order_confirmation_html)(newOrder.items, Number(totalAmount)),
+    });
     res.status(201).json({
-        message: "Order created successfully",
+        message: "Order placed successfully",
         success: true,
         status: "success",
         data: newOrder,

@@ -18,6 +18,8 @@ const bcrypt_1 = require("../utils/bcrypt");
 const error_handler_middleware_1 = __importDefault(require("../middleware/error-handler.middleware"));
 const async_handler_utils_1 = require("../utils/async-handler.utils");
 const jwt_utils_1 = require("../utils/jwt.utils");
+const nodemailer_utils_1 = require("../utils/nodemailer.utils");
+const html_utils_1 = require("../utils/html.utils");
 // register
 exports.register = (0, async_handler_utils_1.asyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // req.body
@@ -38,6 +40,15 @@ exports.register = (0, async_handler_utils_1.asyncHandler)((req, res, next) => _
     if (!user) {
         throw new error_handler_middleware_1.default("Registration failed.Try again later.", 500);
     }
+    // throw error
+    if (!user) {
+        throw new error_handler_middleware_1.default("Registration failed.Try again later.", 500);
+    }
+    yield (0, nodemailer_utils_1.sendMail)({
+        to: user.email,
+        subject: "Account Registered Successfully",
+        html: (0, html_utils_1.account_registration_confirmation_html)(req, user),
+    });
     // success response
     res.status(201).json({
         message: "User registered",
