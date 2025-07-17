@@ -1,0 +1,120 @@
+ 1. virtual dom in react means 
+In React, a virtual DOM (also known as a virtual node tree) is a lightweight in-memory
+representation of the real DOM. It's a tree-like data structure that mirrors the structure of the real
+DOM, but with some key differences.
+
+
+2. how it work
+The virtual DOM is created and updated by React when the state of the application changes. When the
+state changes, React creates a new virtual DOM representation of the application, and then compares
+it with the previous virtual DOM representation. If there are any differences, React updates the real DOM
+to match the new virtual DOM representation.
+
+
+3. why it is useful
+The virtual DOM is useful because it allows React to optimize the rendering of the application by only
+updating the parts of the real DOM that have changed, rather than re-rendering the entire application.
+
+
+4. how it is implemented
+The virtual DOM is implemented using a combination of JavaScript objects and a library called
+`react-dom`. The `react-dom` library provides the functionality for creating and updating the virtual DOM
+and for rendering the virtual DOM to the real DOM.
+
+5. what are the benefits of using virtual dom in react
+The benefits of using the virtual DOM in react are:
+*   **Faster rendering**: The virtual DOM allows React to optimize the rendering of the application by
+only updating the parts of the real DOM that have changed, rather than re-rendering the entir
+*   **Improved performance**: By only updating the parts of the real DOM that have changed, th
+*   **Simplified debugging**: The virtual DOM makes it easier to debug the application by providing a
+*   **Better support for dynamic updates**: The virtual DOM allows React to handle dynamic updates
+*   **Improved support for server-side rendering**: The virtual DOM makes it easier to render the
+*   **Improved support for code splitting**: The virtual DOM makes it easier to split the code into
+*   **Improved support for hot reloading**: The virtual DOM makes it easier to reload the code without
+*   **Improved support for code optimization**: The virtual DOM makes it easier to optimize the code
+
+
+6. what are the challenges of using virtual dom in react
+The challenges of using the virtual DOM in React are:
+*   **Steep learning curve**: The virtual DOM can be difficult to understand and work with,
+*   **Performance overhead**: The virtual DOM can introduce a performance overhead, especially
+*   **Debugging complexity**: The virtual DOM can make debugging more complex, especially when
+*   **Server-side rendering complexity**: The virtual DOM can make server-side rendering more complex,
+
+
+7. recontiliation //virtual dom
+Reconciliation is the process of comparing the virtual DOM with the real DOM and updating the real DOM to
+match the virtual DOM. This process is done by React when the state of the application changes.
+
+
+
+8. diffing algorithm
+The diffing algorithm is a key component of the virtual DOM. It's a process that compares th
+virtual DOM with the real DOM and determines what changes need to be made to the real DOM to match
+virtual DOM.
+
+ 9. virtual dom
+ The virtual DOM is a lightweight in-memory representation of the real DOM. It's a tree-like data
+ structure that represents the UI components and their relationships.
+
+
+ react 
+ react is a javascript library for building user interfaces. it allows you to create reusable UI components and manage
+  the state of your application. react is a view library, not a full-fledged framework,
+ it doesn't handle routing, state management, or server-side rendering out of the box. react is
+ used for building user interfaces and is often used in conjunction with other libraries and frameworks such as
+ react-router, redux, and next.js.
+
+ jss
+ jss is a css-in-js solution for react. it allows you to write css code in your
+ javascript files and automatically generates the corresponding css code. jss is a popular choice for
+ react applications because it allows you to write css code in a more modular and reusable way.
+
+
+
+component in react
+A component in React is a small, reusable piece of code that represents a UI element or a group
+of UI elements. Components can be thought of as functions that return JSX elements. They can be used
+to build complex UIs by combining smaller components together.
+
+it should be in capital letter start but return single jss
+<> - define as react fagment 
+eg:
+const Greet = () => {
+  return (
+    <div>
+      <h1>Welcome to home page</h1>
+
+      <p>this is first react component</p>
+    </div>
+  );
+};
+
+
+
+
+dom 
+document  lai structure ma change garne
+
+(DOM) document object model
+DOM is a programming interface for HTML and XML documents. It represents the structure of a document as a
+tree-like data structure. The DOM is used by web browsers to render web pages and by web developers
+to manipulate the structure and content of web pages.
+
+
+
+SPA
+single page application
+SPA is a web application that loads a single HTML page and dynamically updates that page as the user interacts
+with the application. SPAs are typically built using client-side rendering and do not require a full pag
+reload when the user navigates between different parts of the application.
+
+
+
+
+
+
+
+
+
+
