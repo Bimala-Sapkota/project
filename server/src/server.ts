@@ -6,6 +6,7 @@ import CustomError, {
 import { connectDb } from "./config/db-connect";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 // importing routes
 import authRoutes from "./routers/auth.routes";
@@ -26,6 +27,11 @@ const DB_URI = process.env.DB_URI ?? "";
 // connecting database
 connectDb(DB_URI);
 
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 // using middlewares
 // to set security headers / removes insecure headers
 app.use(helmet());

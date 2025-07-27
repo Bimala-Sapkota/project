@@ -114,7 +114,89 @@ reload when the user navigates between different parts of the application.
 
 
 
+props
+props is short for properties. it is a way to pass data from a parent component to a child
+component in react. props are immutable, meaning they cannot be changed once they are passed to a child
+component.
 
 
 
+hook
+hook is a function in react that allows you to use state and other react features without having to
+subclass a component. hooks are used to manage state and side effects in functional components.
+
+
+useState()
+useEffect()
+useContext()
+useReducer()
+useCallback()
+useMemo()
+useRef()
+
+
+
+watch
+watch is a function in react that allows you to watch for changes to a value and run a function
+when the value changes. watch is typically used in conjunction with the useState hook to watch for changes to
+state.
+
+
+useFormContent
+useFormContent is a hook in react that allows you to manage the content of a form. it
+provides a way to handle form submissions, validate form data, and manage form state.
+
+
+useFormProvider
+useFormProvider is a hook in react that allows you to manage the state of a form. it
+provides a way to handle form submissions, validate form data, and manage form state.
+
+
+useForm
+useForm is a hook in react that allows you to manage the state of a form. it
+provides a way to handle form submissions, validate form data, and manage form state.
+
+
+
+
+backend ma banako login api is call in onSubmit
+
+
+
+react-hook-form
+react-hook-form is a library for react that provides a way to manage form state and handle form
+submissions. it provides a set of hooks that can be used to manage form state, validate form
+data, and handle form submissions. react-hook-form is a popular library for managing forms in react
+applications.
+
+
+yup
+yup is a library for validating data in javascript. it provides a set of functions and
+methods for validating data, including string, number, boolean, array, object, and date validation.
+yup is often used in conjunction with react-hook-form to validate form data.
+
+it is used in frontend only
+
+joy
+joy is a library for react that provides a set of hooks for managing form state and
+validating form data. it is similar to react-hook-form, but provides a more concise and
+intuitive API. joy is a popular library for managing forms in react applications.
+
+zod
+zod is a library for validating data in javascript. it provides a set of functions and methods for
+validating data, including string, number, boolean, array, object, and date validation. z
+
+
+
+
+axios
+axios is a library for making http requests in javascript. it provides a simple and
+intuitive API for making requests to servers, and is often used in conjunction with react to make
+api calls.
+
+
+react-query
+react-query is a library for managing data fetching and caching in react applications. it
+provides a set of hooks and utilities for fetching data from servers, caching data, and handling
+errors.
 

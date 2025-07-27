@@ -43,6 +43,7 @@ const error_handler_middleware_1 = __importStar(require("./middleware/error-hand
 const db_connect_1 = require("./config/db-connect");
 const helmet_1 = __importDefault(require("helmet"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const cors_1 = __importDefault(require("cors"));
 // importing routes
 const auth_routes_1 = __importDefault(require("./routers/auth.routes"));
 const category_routes_1 = __importDefault(require("./routers/category.routes"));
@@ -58,6 +59,9 @@ const DB_URI = (_a = process.env.DB_URI) !== null && _a !== void 0 ? _a : "";
 //
 // connecting database
 (0, db_connect_1.connectDb)(DB_URI);
+app.use((0, cors_1.default)({
+    origin: "*",
+}));
 // using middlewares
 // to set security headers / removes insecure headers
 app.use((0, helmet_1.default)());
