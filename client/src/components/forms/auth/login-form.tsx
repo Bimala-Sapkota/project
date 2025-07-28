@@ -5,6 +5,7 @@ import type { ILogin } from "../../../types/auth.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../../schema/auth.schema";
 import { login } from "../../../api/auth.api";
+import { useMutation } from "@tanstack/react-query";
 
 const LoginForm = () => {
   const methods = useForm({
@@ -16,10 +17,21 @@ const LoginForm = () => {
     mode: "all",
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      console.log("Login success response ", data);
+    },
+    onError: (error) => {
+      console.log("Login error response", error);
+    },
+  });
+
   const onSubmit = async (data: ILogin) => {
     console.log("Form submitted", data);
-    const response = await login(data);
-    console.log(response);
+    // const response = await login(data);
+    mutate(data);
+    // console.log(response);
   };
 
   return (
@@ -50,7 +62,11 @@ const LoginForm = () => {
               required
             />
           </div>
-          <Button type={"submit"} label={"Login"} />
+          <Button
+            isDisable={isPending}
+            type={"submit"}
+            label={isPending ? "Logging in..." : "Login"} // Change button text during loading
+          />
         </form>
       </FormProvider>
     </div>

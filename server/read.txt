@@ -195,8 +195,30 @@ intuitive API for making requests to servers, and is often used in conjunction w
 api calls.
 
 
+
+
 react-query
 react-query is a library for managing data fetching and caching in react applications. it
 provides a set of hooks and utilities for fetching data from servers, caching data, and handling
 errors.
+
+
+
+
+cors 
+cors is a security feature implemented in web browsers that helps protect web applications from
+cross-site request forgery (csrf) attacks. it is used to prevent malicious scripts from making
+requests on behalf of a user.
+
+
+
+mutation
+mutation is a library for react that provides a way to handle form submissions and
+update the state of the application. it is often used in conjunction with react-hook-form to handle
+
+
+query
+query is a library for react that provides a way to handle data fetching and caching in
+applications. it is often used in conjunction with react-query to handle data fetching and caching.
+
 
