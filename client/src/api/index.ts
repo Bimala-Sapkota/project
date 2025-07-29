@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://api.example.com", // .env ko api
+  baseURL: "https://project-p8ej.onrender.com", // .env ko api
 
   timeout: 10000,
 });

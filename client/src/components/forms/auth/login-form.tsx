@@ -6,8 +6,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../../schema/auth.schema";
 import { login } from "../../../api/auth.api";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const methods = useForm({
     defaultValues: {
       email: "",
@@ -19,10 +22,22 @@ const LoginForm = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: login,
+
     onSuccess: (data) => {
       console.log("Login success response ", data);
+
+      //store user object and token on local storage
+
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+
+      //toast meassage->
+      toast.success(data.message ?? "login Successful");
+
+      navigate("/"); // login is successful then move to home page
     },
+
     onError: (error) => {
+      toast.error(error.message ?? "Login fail ");
       console.log("Login error response", error);
     },
   });
@@ -64,7 +79,7 @@ const LoginForm = () => {
           </div>
 
           <Button
-            isDisable={isPending}
+            isDisabled={isPending}
             type={"submit"}
             label={isPending ? "Logging in..." : "Login"} // Change button text during loading
           />

@@ -222,3 +222,14 @@ query is a library for react that provides a way to handle data fetching and cac
 applications. it is often used in conjunction with react-query to handle data fetching and caching.
 
 
+
+
+Omit 
+Omit is a library for react that provides a way to omit certain properties from an object.
+It is often used in conjunction with react to handle data fetching and caching.
+
+
+p
+p is a library for react that provides a way to handle pagination in applications. it is often used
+in conjunction with react to handle data fetching and caching.
+

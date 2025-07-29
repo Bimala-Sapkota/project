@@ -4,8 +4,14 @@ import Button from "../../common/button";
 import Input from "../../common/inputs/input";
 import { useForm, FormProvider } from "react-hook-form";
 import { registerSchema } from "../../../schema/auth.schema";
+import { useMutation } from "@tanstack/react-query";
+import { register } from "../../../api/auth.api";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
+
   const methods = useForm({
     defaultValues: {
       first_name: "",
@@ -19,9 +25,25 @@ const RegisterForm = () => {
     mode: "all",
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: register,
+    onSuccess: (response) => {
+      console.log("Registration successful", response);
+      //toast meassage->
+      toast.success(response.message ?? "Register Successful");
+
+      navigate("/login");
+    },
+    onError: (error) => {
+      toast.error(error.message ?? "Register fail ");
+      console.log(error);
+    },
+  });
+
   // Submit handler
   const onSubmit = async (data: IRegister) => {
     console.log("Form submitted", data);
+    mutate(data);
     // Send data to server
   };
 
@@ -30,15 +52,12 @@ const RegisterForm = () => {
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit(onSubmit)}
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-1"
         >
           <div>
-            {/* Name */}
-            <div className="flex flex-col gap-1">
-              <label
-                className="text-lg font-bold text-gray-800"
-                htmlFor="first_name"
-              ></label>
+            {/* border-white w-full flex flex-col md:flex-row gap-3 */}
+            <div className="border border-white w-full flex flex-col md:flex-row gap-5">
+              {/*First Name */}
               <Input
                 label="First Name"
                 id="first_name"
@@ -108,7 +127,12 @@ const RegisterForm = () => {
               placeholder="98xxxxxx70"
             />
           </div>
-          <Button type="submit" label="Submit" />
+
+          <Button
+            isDisabled={isPending}
+            type={"submit"}
+            label={isPending ? "register in..." : "Sing Up"}
+          />
         </form>
       </FormProvider>
     </div>
