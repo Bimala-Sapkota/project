@@ -1,15 +1,14 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction, response } from "express";
 import User from "../models/user.model";
 import { compare, hash } from "../utils/bcrypt";
-import CustomError, {
-  errorHandler,
-} from "../middleware/error-handler.middleware";
+import CustomError from "../middleware/error-handler.middleware";
 import { asyncHandler } from "../utils/async-handler.utils";
 import { generateJWTToken } from "../utils/jwt.utils";
 import { sendMail } from "../utils/nodemailer.utils";
 import { account_registration_confirmation_html } from "../utils/html.utils";
 
-// register
+//Register success====================
+
 export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     // req.body
@@ -57,68 +56,80 @@ export const register = asyncHandler(
   }
 );
 
+// Login success==========
+
 export const login = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    // body (email,password)
-    const { email, password } = req.body;
+    try {
+      // body (email,password)
+      const { email, password } = req.body;
 
-    if (!email) {
-      throw new CustomError("email is required", 400);
+      if (!email) {
+        throw new CustomError("Email is Required", 400);
+      }
+
+      if (!password) {
+        throw new CustomError("Password is Required", 400);
+      }
+
+      // find user by email
+      const user = await User.findOne({ email });
+
+      // if !user => error
+      if (!user) {
+        throw new CustomError("Email or password does not match", 404);
+      }
+
+      // compare password
+      const isPasswordMatched = await compare(password, user.password);
+
+      // !match -> error
+      if (!isPasswordMatched) {
+        throw new CustomError("Email or password does not match", 400);
+      }
+
+      //jwt token
+      const payload = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        _id: user._id,
+        role: user.role,
+        email: user.email,
+      };
+
+      const token = generateJWTToken(payload);
+      //category
+      //products
+
+      // login success
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+          maxAge:
+            parseInt(process.env.COOKIE_EXPIRES_IN ?? "1") * 60 * 60 * 1000,
+          secure: false, //true in case of going on products
+        })
+
+        .json({
+          message: "Login success",
+          success: true,
+          status: "success",
+          data: {
+            user,
+            access_token: token,
+          },
+        });
+    } catch (error: any) {
+      // console.log(error);
+
+      // res.status(500).json({
+      //   message: error?.message ?? "Internal server error",
+      //   success: false,
+      //   status: "fail",
+      // });
+
+      next(error);
     }
-
-    if (!password) {
-      throw new CustomError("password is required", 400);
-    }
-
-    // find user by email
-    const user = await User.findOne({ email });
-
-    // if !user => error
-    if (!user) {
-      throw new CustomError("email or password does not match", 400);
-    }
-
-    // compare password
-    const isPasswordMatched = await compare(password, user.password);
-
-    // !match -> error
-    if (!isPasswordMatched) {
-      throw new CustomError("email or password does not match", 400);
-    }
-
-    // jwt token
-    const payload = {
-      first_name: user.first_name,
-      last_name: user.last_name,
-      _id: user._id,
-      role: user.role,
-      email: user.email,
-    };
-
-    const token = generateJWTToken(payload);
-
-    console.log("👊 ~ auth.controller.ts:92 ~ login ~ token:", token);
-
-    // category
-    // products
-
-    // login success
-    res
-      .status(200)
-      .cookie("access_token", token, {
-        httpOnly: true,
-        maxAge:
-          parseInt(process.env.COOKIE_EXPIRES_IN ?? "1") * 24 * 60 * 60 * 1000,
-        secure: false,
-      })
-      .json({
-        message: "Login success",
-        success: true,
-        status: "success",
-        data: {
-          user,
-          access_token: token,
-        },
-      });
   }
 );

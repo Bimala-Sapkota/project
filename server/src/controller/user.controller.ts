@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 
 // register new user
 export const register = asyncHandler(async (req: Request, res: Response) => {
-  const { full_name, email, password, phone_number } = req.body;
+  const { first_name, last_name, email, password, phone_number } = req.body;
 
   // check if user exists
   const userExists = await User.findOne({ email });
@@ -16,7 +16,8 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
   }
 
   const user = await User.create({
-    full_name,
+    first_name,
+    last_name,
     email,
     password,
     phone_number,
@@ -33,7 +34,8 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
     data: {
       user: {
         _id: user._id,
-        full_name: user.full_name,
+        first_name: user.first_name,
+        last_name: user.last_name,
         email: user.email,
         phone_number: user.phone_number,
         role: user.role,
@@ -68,7 +70,8 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
     data: {
       user: {
         _id: user._id,
-        full_name: user.full_name,
+        first_name: user.first_name,
+        last_name: user.last_name,
         email: user.email,
         phone_number: user.phone_number,
         role: user.role,
@@ -105,7 +108,9 @@ export const updateProfile = asyncHandler(
       throw new CustomError("User not found", 404);
     }
 
-    user.full_name = full_name || user.full_name;
+    user.first_name = full_name || user.first_name;
+
+    user.last_name = full_name || user.last_name;
     user.phone_number = phone_number || user.phone_number;
 
     await user.save();

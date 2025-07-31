@@ -126,6 +126,8 @@ hook is a function in react that allows you to use state and other react feature
 subclass a component. hooks are used to manage state and side effects in functional components.
 
 
+
+
 useState()
 useEffect()
 useContext()
