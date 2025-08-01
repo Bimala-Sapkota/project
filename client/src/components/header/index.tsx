@@ -1,5 +1,5 @@
 import React from "react";
-import NavLinks from "./nau-links"; // Corrected the import path
+import NavLinks from "./nav-links"; // Corrected the import path
 import { LuClipboardPlus } from "react-icons/lu";
 import { GrFavorite } from "react-icons/gr"; // Corrected the import for the wishlist icon
 

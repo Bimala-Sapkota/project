@@ -16,7 +16,7 @@ function APP() {
           <Route path="/login" element={<Login />} />
 
           <Route path="/register" element={<Register />} />
-          <Route path="/*" element={<div>404 page not found</div>} />
+          <Route path="*" element={<div>404 page not found</div>} />
         </Routes>
       </Router>
     </>
