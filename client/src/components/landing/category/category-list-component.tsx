@@ -3,7 +3,7 @@ import ComponentTitle from "../component-title-with-button";
 import CategoryCard from "./category-card";
 import { getAllCategory } from "../../../api/category.api";
 import { useQuery } from "@tanstack/react-query";
-import CategoryCardLoader from "./category-loder";
+import CategoryCardLoader from "./category-loader";
 
 const CategoryList = () => {
   const { data, isLoading } = useQuery({
