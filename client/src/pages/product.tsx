@@ -1,11 +1,12 @@
 import NavBar from "../components/header";
+import AllProductList from "../components/products/product_list";
 
 const Products = () => {
   return (
     <main>
       <NavBar />
-      <div>
-        <h1>Products</h1>
+      <div className="px-36">
+        <AllProductList />
       </div>
     </main>
   );

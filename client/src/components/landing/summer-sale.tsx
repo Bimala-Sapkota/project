@@ -1,12 +1,12 @@
-import ProductCard from "../product/card";
+import ProductCard from "../poducts/card";
 import ComponentTitle from "./component-title-with-button";
 
-const SummerSale = () => {
+const MostSale = () => {
   return (
     <div className="mt-10 px-36">
       <ComponentTitle
-        title="Summer Sale"
-        subTitle="special summer sale"
+        title="2 weeks most sale"
+        subTitle="2 weeks most sale products"
         key={"summer_sale_component_title"}
         link="#"
       />
@@ -19,4 +19,4 @@ const SummerSale = () => {
   );
 };
 
-export default SummerSale;
+export default MostSale;

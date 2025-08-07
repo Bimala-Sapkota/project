@@ -1,14 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
 import type { ICategory } from "../../../types/category.type";
 import ComponentTitle from "../component-title-with-button";
 import CategoryCard from "./category-card";
 import { getAllCategory } from "../../../api/category.api";
-import { useQuery } from "@tanstack/react-query";
-import CategoryCardLoader from "./category-loader";
+import CategoryCardLoader from "../../loader/category-loader";
 
 const CategoryList = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["get_all_category"],
     queryFn: getAllCategory,
+    queryKey: ["get_all_category"],
   });
 
   console.log(isLoading, data);
@@ -19,9 +19,9 @@ const CategoryList = () => {
         title="Browse Our Best Selling Product Categories"
         subTitle="Discover top-rated products by category loved by our customers."
       />
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
         {isLoading
-          ? [1, 2, 3, 4, 5, 6, 7, 8, 9].map((data) => (
+          ? Array.from({ length: 12 }, (_, i: number) => i + 1).map((data) => (
               <CategoryCardLoader key={data} />
             ))
           : data?.data.map((category: ICategory) => (

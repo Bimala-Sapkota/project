@@ -1,20 +1,24 @@
+import Footer from "../components/footer";
 import NavBar from "../components/header";
+import CategoryList from "../components/landing/category/category-list-component";
 import FeaturedProducts from "../components/landing/feature-products";
 import Hero from "../components/landing/hero";
 import MostSale from "../components/landing/most-sale";
 import SummerSale from "../components/landing/summer-sale";
-import ProductCard from "../components/product/card";
 
 const HomePage = () => {
   return (
-    <div>
-      <NavBar />
-      <Hero />
-      <FeaturedProducts />
-      <ProductCard />
-      <MostSale />
-      <SummerSale />
-    </div>
+    <main>
+      <main>
+        <NavBar />
+        <Hero />
+        <CategoryList />
+        <FeaturedProducts />
+        <MostSale />
+        <SummerSale />
+        <Footer />
+      </main>
+    </main>
   );
 };
 export default HomePage;

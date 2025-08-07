@@ -1,4 +1,4 @@
-import ProductCard from "../product/card";
+import ProductCard from "../poducts/card";
 import ComponentTitle from "./component-title-with-button";
 
 const MostSale = () => {
