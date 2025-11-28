@@ -1,10 +1,7 @@
 import { Request } from "express";
 
-export const account_registration_confirmation_html = (
-  req: Request,
-  user: any
-) => {
-  return `
+export const account_registration_confirmation_html = (req:Request,user:any) =>{
+    return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,24 +58,21 @@ export const account_registration_confirmation_html = (
     <h2>Account Details</h2>
     <p><span class="label">Full Name:</span> ${user.full_name}</p>
     <p><span class="label">Email:</span> ${user.email}</p>
-    <p><span class="label">Phone:</span> ${
-      user.phone_number ?? "Not provided"
-    }</p>
+    <p><span class="label">Phone:</span> ${user.phone_number ?? 'Not provided'}</p>
     <p>
       You can now login to your account by clicking the button below:
     </p>
-    <a href="${req.protocol}://${
-    req.hostname
-  }/login" class="button">Login to Your Account</a>
+    <a href="${req.protocol}://${req.hostname}/login" class="button">Login to Your Account</a>
   </div>
 </body>
 </html>
 `;
-};
+}
 
-export const order_confirmation_html = (items: any[], totalAmount: number) => {
-  return `
-<!DOCTYPE html>
+
+export const  order_confirmation_html = (items:any[],totalAmount:number) =>{
+    return (
+  `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
@@ -132,9 +126,7 @@ export const order_confirmation_html = (items: any[], totalAmount: number) => {
 <body>
   <div class="container">
     <h1>Order Placed Successfully</h1>
-    <p>Your order has been placed for <strong>${
-      items.length
-    }</strong> item(s).</p>
+    <p>Your order has been placed for <strong>${items.length}</strong> item(s).</p>
 
     <h2>Order Details</h2>
 
@@ -145,19 +137,15 @@ export const order_confirmation_html = (items: any[], totalAmount: number) => {
         <div class="item-price">Price</div>
       </div>
 
-      ${items
-        .map(
-          (item: any) => `
+      ${
+        items.map((item:any) => `
           <div class="order-item">
-            <div class="item-name">${item.product?.name ?? "-"}</div>
-            <div class="item-qty">${item.quantity ?? "-"}</div>
-            <div class="item-price">${
-              item.product?.price ? "$" + item.product.price.toFixed(2) : "-"
-            }</div>
+            <div class="item-name">${item.product?.name ?? '-'}</div>
+            <div class="item-qty">${item.quantity ?? '-'}</div>
+            <div class="item-price">${item.product?.price ? '$' + item.product.price.toFixed(2) : '-'}</div>
           </div>
-        `
-        )
-        .join("")}
+        `).join('')
+      }
 
       <div class="order-total">
         <div class="item-name">Total Amount</div>
@@ -168,5 +156,7 @@ export const order_confirmation_html = (items: any[], totalAmount: number) => {
   </div>
 </body>
 </html>
-`;
-};
+`
+
+    )
+}

@@ -5,13 +5,14 @@ export enum Role {
   USER = "USER",
 }
 
+
+
 export enum OrderStatus {
-  PENDING = "Pending",
+  PENDING="Pending",
   PROCESSING = "Processing",
-  SHIPPING = "Shipping",
-  CANCELED = "Canceled",
+  SHIPPED = "Shipped",
   COMPLETED = "Completed",
-  DELIVERED = "Delivered",
+  CANCELED = "Canceled"
 }
 
 export const onlyAdmin = [Role.ADMIN];
@@ -37,8 +38,9 @@ export interface JWTPayloadDecoded extends JWTPayload {
   exp: number;
 }
 
+
 export interface EmailOptions {
-  to: string;
-  subject: string;
-  html: string;
+  to:string;
+  subject:string,
+  html:string
 }

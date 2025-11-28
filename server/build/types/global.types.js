@@ -10,10 +10,9 @@ var OrderStatus;
 (function (OrderStatus) {
     OrderStatus["PENDING"] = "Pending";
     OrderStatus["PROCESSING"] = "Processing";
-    OrderStatus["SHIPPING"] = "Shipping";
-    OrderStatus["CANCELED"] = "Canceled";
+    OrderStatus["SHIPPED"] = "Shipped";
     OrderStatus["COMPLETED"] = "Completed";
-    OrderStatus["DELIVERED"] = "Delivered";
+    OrderStatus["CANCELED"] = "Canceled";
 })(OrderStatus || (exports.OrderStatus = OrderStatus = {}));
 exports.onlyAdmin = [Role.ADMIN];
 exports.onlyUser = [Role.USER];

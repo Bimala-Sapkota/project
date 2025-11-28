@@ -1,17 +1,21 @@
 import { Outlet } from "react-router";
-import NavBar from "../components/header";
 import Footer from "../components/footer";
+import NavBar from "../components/header";
 
 const ClientLayout = () => {
   return (
     <main>
-      <div>
+      {/* nav section */}
+      <div className="hidden lg:block">
         <NavBar />
       </div>
 
-      <div>
+      {/* dynamic section */}
+      <div className="min-h-[80vh]">
         <Outlet />
       </div>
+
+      {/* footer section */}
       <div>
         <Footer />
       </div>

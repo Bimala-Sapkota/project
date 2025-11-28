@@ -9,7 +9,7 @@ const connectDb = (uri) => {
     mongoose_1.default
         .connect(uri)
         .then(() => {
-        console.log("database connected");
+        console.log('database connected');
     })
         .catch((err) => {
         console.log(err);

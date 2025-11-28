@@ -1,4 +1,11 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
+
+// 1. brand model 
+// 2. brand controller -> [CRUD]
+// 3. routes from brand
+// 4. use brand route on server.ts
+
+// 5. update product model -> product -> add brand field -> ref. brand  collection/document 
 
 const productSchema = new mongoose.Schema(
   {
@@ -12,13 +19,11 @@ const productSchema = new mongoose.Schema(
       required: [true, "price is required"],
       min: [0, "price must be a positive number"],
     },
-
-    brand: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "brand",
-      required: [true, "brand is required"],
-    },
-
+    // brand:{
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "brand",
+    //   required: [true, "brand is required"],
+    // },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",

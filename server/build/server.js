@@ -39,53 +39,49 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const express_1 = __importDefault(require("express"));
-const error_handler_middleware_1 = __importStar(require("./middleware/error-handler.middleware"));
+const error_handler_middleware_1 = __importStar(require("./middlewares/error-handler.middleware"));
 const db_connect_1 = require("./config/db-connect");
 const helmet_1 = __importDefault(require("helmet"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 // importing routes
-const auth_routes_1 = __importDefault(require("./routers/auth.routes"));
-const category_routes_1 = __importDefault(require("./routers/category.routes"));
-const product_routes_1 = __importDefault(require("./routers/product.routes"));
-const cart_routes_1 = __importDefault(require("./routers/cart.routes"));
-const wishlist_routes_1 = __importDefault(require("./routers/wishlist.routes"));
-const order_routes_1 = __importDefault(require("./routers/order.routes"));
-const brand_routes_1 = __importDefault(require("./routers/brand.routes"));
-const user_routes_1 = __importDefault(require("./routers/user.routes"));
+const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
+const category_routes_1 = __importDefault(require("./routes/category.routes"));
+const product_routes_1 = __importDefault(require("./routes/product.routes"));
+const cart_routes_1 = __importDefault(require("./routes/cart.routes"));
+const wishlist_routes_1 = __importDefault(require("./routes/wishlist.routes"));
+const order_routes_1 = __importDefault(require("./routes/order.routes"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 8080;
-const DB_URI = (_a = process.env.DB_URI) !== null && _a !== void 0 ? _a : "";
-//
+const DB_URI = (_a = process.env.DB_URI) !== null && _a !== void 0 ? _a : '';
 // connecting database
 (0, db_connect_1.connectDb)(DB_URI);
+//! using middlewares
 app.use((0, cors_1.default)({
-    origin: "*",
+    origin: process.env.FORNT_END_URL || 'http://localhost:3000',
+    credentials: true
 }));
-// using middlewares
-// to set security headers / removes insecure headers
+//* to set security headers / removes insecure headers
 app.use((0, helmet_1.default)());
-// parse req cookie
+//* parse req cookie
 app.use((0, cookie_parser_1.default)());
-// parse url-encoded data
+//* parse url-encoded & multipart/formdata data
 app.use(express_1.default.urlencoded({ extended: true }));
 // parse json data
 app.use(express_1.default.json());
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).json({
-        message: "Server is up & running",
+        message: 'Server is up & running'
     });
 });
 // using routes
-app.use("/api/auth", auth_routes_1.default);
-app.use("/api/category", category_routes_1.default);
-app.use("/api/product", product_routes_1.default);
-app.use("/api/cart", cart_routes_1.default);
-app.use("/api/wishlist", wishlist_routes_1.default);
-app.use("/api/order", order_routes_1.default);
-app.use("/api/brand", brand_routes_1.default);
-app.use("/api/user", user_routes_1.default);
-app.all("/{*spalt}", (req, res, next) => {
+app.use('/api/auth', auth_routes_1.default);
+app.use('/api/category', category_routes_1.default);
+app.use('/api/product', product_routes_1.default);
+app.use('/api/cart', cart_routes_1.default);
+app.use('/api/wishlist', wishlist_routes_1.default);
+app.use('/api/order', order_routes_1.default);
+app.all('/{*spalt}', (req, res, next) => {
     const message = `Can not ${req.method} on ${req.url}`;
     const error = new error_handler_middleware_1.default(message, 404);
     next(error);

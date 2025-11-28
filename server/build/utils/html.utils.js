@@ -60,7 +60,7 @@ const account_registration_confirmation_html = (req, user) => {
     <h2>Account Details</h2>
     <p><span class="label">Full Name:</span> ${user.full_name}</p>
     <p><span class="label">Email:</span> ${user.email}</p>
-    <p><span class="label">Phone:</span> ${(_a = user.phone_number) !== null && _a !== void 0 ? _a : "Not provided"}</p>
+    <p><span class="label">Phone:</span> ${(_a = user.phone_number) !== null && _a !== void 0 ? _a : 'Not provided'}</p>
     <p>
       You can now login to your account by clicking the button below:
     </p>
@@ -72,8 +72,7 @@ const account_registration_confirmation_html = (req, user) => {
 };
 exports.account_registration_confirmation_html = account_registration_confirmation_html;
 const order_confirmation_html = (items, totalAmount) => {
-    return `
-<!DOCTYPE html>
+    return (`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
@@ -138,18 +137,16 @@ const order_confirmation_html = (items, totalAmount) => {
         <div class="item-price">Price</div>
       </div>
 
-      ${items
-        .map((item) => {
+      ${items.map((item) => {
         var _a, _b, _c, _d;
         return `
           <div class="order-item">
-            <div class="item-name">${(_b = (_a = item.product) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : "-"}</div>
-            <div class="item-qty">${(_c = item.quantity) !== null && _c !== void 0 ? _c : "-"}</div>
-            <div class="item-price">${((_d = item.product) === null || _d === void 0 ? void 0 : _d.price) ? "$" + item.product.price.toFixed(2) : "-"}</div>
+            <div class="item-name">${(_b = (_a = item.product) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : '-'}</div>
+            <div class="item-qty">${(_c = item.quantity) !== null && _c !== void 0 ? _c : '-'}</div>
+            <div class="item-price">${((_d = item.product) === null || _d === void 0 ? void 0 : _d.price) ? '$' + item.product.price.toFixed(2) : '-'}</div>
           </div>
         `;
-    })
-        .join("")}
+    }).join('')}
 
       <div class="order-total">
         <div class="item-name">Total Amount</div>
@@ -160,6 +157,6 @@ const order_confirmation_html = (items, totalAmount) => {
   </div>
 </body>
 </html>
-`;
+`);
 };
 exports.order_confirmation_html = order_confirmation_html;

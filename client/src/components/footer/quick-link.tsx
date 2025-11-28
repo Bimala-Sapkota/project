@@ -52,15 +52,10 @@ const QuickLinks: React.FC = () => {
       <div className="max-w-6xl mx-auto grid grid-cols-1  md:grid-cols-3 gap-8 px-4">
         {footerData.map((section) => (
           <div key={section.title}>
-            <h4 className="font-medium text-[16px] lg:text-[16px] 2xl:text-[18px] mb-4 text-center lg:text-start">
-              {section.title}
-            </h4>
+            <h4 className="font-medium text-[16px] lg:text-[16px] 2xl:text-[18px] mb-4 text-center lg:text-start">{section.title}</h4>
             <ul className="space-y-2 text-sm">
               {section.links.map((link) => (
-                <li
-                  className=" lg:text-transparent text-center lg:text-start"
-                  key={link.title}
-                >
+                <li className=" lg:text-transparent text-center lg:text-start" key={link.title}>
                   <Link
                     to={link.url}
                     className="hover:text-white text-[#f8f8f8] transition-all mx-auto duration-200 font-[200] text-[14px] lg:text-[14px] 3xl:text-[16px]"

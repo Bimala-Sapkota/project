@@ -45,5 +45,6 @@
     "url": "https://github.com/Bimala-Sapkota/project/issues"
   },
   "homepage": "https://github.com/Bimala-Sapkota/project#readme",
-  "description": ""
+  "description": "",
+  "type": "commonjs"
 }

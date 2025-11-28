@@ -1,31 +1,35 @@
-/* semantic tag   / non-semantic tag */
+/* semantic tags / non-semantic */
 
-/*main , footer , nav , section , header , section , aside , .. are semantic tag ---- it has meaning */
+/* main */
+/* footer */
+/* nav */
+/* header */
+/* section */
+/* aside */
+/* .. */
 
-/*no-semantic--- no meaning   div , ,span */
+/* no-semantic */
+/* div */
+/* span */
 
-/*div is a block level element  */
-/*span is an inline element  */
-
-/*inline-block element */
-
-/*block    eg -- div , p  h1-h6, section */
-/*1. takes full width, height of parents */
-/*2. can have margin , border  and padding */
-/*3. always start with new line */
-/*6. can have background color */
-/*7. can have text-align,vertical-align  */
+/* block , inline, inline-block elements */
+/*? block */
+/* 1. takes full with of parent */
+/* 2. always starts from new line */
+/* 3. can set height width margin padding properties */
+/* div,p,h1-h6, section */
 
 /*? inline tag */
-/*1. takes only space width  as it content*/
-/* 2. always start in same line*/
-/*3. can  not set have margin , border  and padding*/
-/* eg  , spam input , italic , bold ....*/
+/* 1. takes width as it contents */
+/* 2. always starts in same line */
+/* 3. can not set h,w,m & padding */
+/* span input a , i , b ,  */
 
-/* inline-block */
-/*mix  of block and inline */
-/* we can make any block element inline-block by setting display property*/
-/* eg  input , button */
-
-/* display :inline-block */
-/* */
+/*? inline-block */
+/* mix of block and inline */
+/* 1.always starts in same line */
+/* 2.can set height width margin padding properties*/
+/* input ,button */
+/* we can make any block elements inline-block by setting display property */
+/* display:inline-block */
+/*  */

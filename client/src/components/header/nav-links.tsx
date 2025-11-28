@@ -1,49 +1,46 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom"; // Ensure you import useLocation
+import { Link, useLocation } from 'react-router'
 
 const navLinks = [
-  {
-    label: "Home",
-    link: "/",
-  },
-  {
-    label: "Product",
-    link: "/product",
-  },
-  {
-    label: "About Us",
-    link: "/about_us", // Fixed typo in the link
-  },
-  {
-    label: "Contact Us",
-    link: "/contact_us", // Fixed typo in the link
-  },
-];
+    {
+        label: 'Home',
+        link: '/',
 
+    },
+    {
+        label: 'Products',
+        link: '/products',
+    },
+    {
+        label: 'About Us',
+        link: '/about_us',
+    }
+    ,
+    {
+        label: 'Contact Us',
+        link: '/contact_us',
+    }
+
+]
+
+// arr.map
 const NavLinks = () => {
-  const location = useLocation(); // Use useLocation to get current path
 
-  return (
-    <div className="flex items-center gap-6">
-      {" "}
-      {/* Corrected class name */}
-      {navLinks.map((item) => (
-        <Link to={item.link} key={item.label}>
-          {" "}
-          {/* Added key for each link */}
-          <span
-            className={`text-lg font-[400] ${
-              location.pathname === item.link
-                ? "font-[600] text-indigo-600"
-                : ""
-            }`}
-          >
-            {item.label}
-          </span>
-        </Link>
-      ))}
-    </div>
-  );
-};
+    const location = useLocation()
+    return (
+        <div className='flex items-center gap-6'> 
+            {
+                navLinks.map((item)=>{
+                    return(
+                        <Link to={item.link}>
+                            <span className={`text-lg font-[400] ${location.pathname === item.link ? 'font-[600] text-indigo-600' : ''}`}>{item.label}</span>
+                        </Link>
+                    )
+                })
 
-export default NavLinks;
+            }
+
+        </div>
+    )
+}
+
+export default NavLinks

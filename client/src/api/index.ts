@@ -1,9 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://project-p8ej.onrender.com", // .env ko api
-
-  timeout: 10000,
+  baseURL: import.meta.env.VITE_SERVER_API_URL,
+  withCredentials:true
 });
 
-export default instance;
+export default instance
