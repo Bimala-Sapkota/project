@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ICategory } from "../types/category.types";
+import type { ICategory, ICategoryData } from "../types/category.types";
 import api from "./index";
 
 //* get all category
@@ -21,3 +21,8 @@ export const createCategory = async (data: ICategory) => {
     throw error.response.data;
   }
 };
+// Define the API response interface
+
+export interface ICategoriesResponse {
+  data: ICategoryData[]; // Array of category data
+}

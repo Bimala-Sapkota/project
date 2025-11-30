@@ -1,54 +1,105 @@
-import { useQuery } from '@tanstack/react-query'
-import ProductCard from '../poducts/card'
-import ComponentTitle from './conponent-title-with-button'
-import { getFeaturedProducts } from '../../api/product.api'
-import ProductCardLoader from '../loaders/product-loader'
-import NotFoundComponent from '../common/not-found-card/not-found'
-import type { IProductData } from '../../types/product.types'
+// import { useQuery } from '@tanstack/react-query'
+// import ProductCard from '../poducts/card'
+// import ComponentTitle from './conponent-title-with-button'
+// import { getFeaturedProducts } from '../../api/product.api'
+// import ProductCardLoader from '../loaders/product-loader'
+// import NotFoundComponent from '../common/not-found-card/not-found'
+// import type { IProductData } from '../../types/product.types'
 
+// const FeaturedProducts = () => {
 
+//   const {data,isLoading} = useQuery({
+//     queryFn:getFeaturedProducts,
+//     queryKey:['get_featured_products']
+//   })
+
+//   console.log(data,isLoading)
+
+//   // 1. if loading  -> render loading component
+//   // 1. if data.length === 0  -> render data not found component
+//   // 1. if all ok  -> render data(products card)
+
+//   return (
+//     <div className='mt-10 px-4 lg:px-36'>
+//       <ComponentTitle
+//       title='Featured Products'
+//       subTitle='Our featured products'
+//       key={'featured_component_title'}
+//       link='/products'
+//       />
+//       <div className='mt-4 flex flex-wrap gap-6'>
+
+//         <div className='w-full'>
+//           {
+//             data && data.data.length === 0 && <NotFoundComponent message='Products Not Found'/>
+//           }
+//         </div>
+
+//         {
+//           // [1,2,3,4,,,,,,,13]
+//           isLoading ? Array.from({length:12},(_,i) => i + 1).map((index) => <ProductCardLoader key={index}/>)
+//         :
+//         data.data.map((product:IProductData) => {
+//           return <ProductCard product={product}  key={product._id} />
+//         })}
+
+//       </div>
+
+//     </div>
+//   )
+// }
+
+// export default FeaturedProducts
+
+import { useQuery } from "@tanstack/react-query";
+import ProductCard from "../poducts/card"; // Fix the import to match directory structure
+import ComponentTitle from "./conponent-title-with-button"; // Fix typo
+import { getFeaturedProducts } from "../../api/product.api";
+import ProductCardLoader from "../loaders/product-loader";
+import NotFoundComponent from "../common/not-found-card/not-found";
+import type {
+  IProductData,
+  IProductsResponse,
+} from "../../types/product.types"; // Ensure types are defined appropriately
 
 const FeaturedProducts = () => {
+  const { data, isLoading, isError } = useQuery<IProductsResponse>({
+    queryFn: getFeaturedProducts,
+    queryKey: ["get_featured_products"],
+  });
 
-  const {data,isLoading} = useQuery({
-    queryFn:getFeaturedProducts,
-    queryKey:['get_featured_products']
-  })
-
-  console.log(data,isLoading)
-
-  // 1. if loading  -> render loading component
-  // 1. if data.length === 0  -> render data not found component
-  // 1. if all ok  -> render data(products card)
+  console.log(data, isLoading, isError); // You may want to remove or conditionally log this in production
 
   return (
-    <div className='mt-10 px-4 lg:px-36'>
+    <div className="mt-10 px-4 lg:px-36">
       <ComponentTitle
-      title='Featured Products'
-      subTitle='Our featured products'
-      key={'featured_component_title'}
-      link='/products'
+        title="Featured Products"
+        subTitle="Our featured products"
+        key={"featured_component_title"}
+        link="/products"
       />
-      <div className='mt-4 flex flex-wrap gap-6'>
+      <div className="mt-4 flex flex-wrap gap-6">
+        <div className="w-full">
+          {/* Error Handling */}
+          {isError && (
+            <NotFoundComponent message="Error loading products. Please try again." />
+          )}
 
-        <div className='w-full'>
-          {
-            data && data.data.length === 0 && <NotFoundComponent message='Products Not Found'/>
-          }
+          {/* No data found
+          {data && data.data.length === 0 && (
+            <NotFoundComponent message="Products Not Found" />
+          )} */}
         </div>
 
-        {
-          // [1,2,3,4,,,,,,,13]
-          isLoading ? Array.from({length:12},(_,i) => i + 1).map((index) => <ProductCardLoader key={index}/>)
-        :
-        data.data.map((product:IProductData) => {
-          return <ProductCard product={product}  key={product._id} />
-        })}
-
+        {/* Loading State */}
+        {isLoading
+          ? Array.from({ length: 12 }, (_, i) => <ProductCardLoader key={i} />)
+          : data?.data.map((product: IProductData) => (
+              <ProductCard product={product} key={product._id} />
+            ))}
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default FeaturedProducts
+export default FeaturedProducts;
